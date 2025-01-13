@@ -1,18 +1,14 @@
+"""
+To run the following script with a specific experiment you can use this command (example)
+    - python test_agent.py CartPole-v0 --experiment 20250112_192941
+"""
+
 import argparse
 import gymnasium as gym
 import numpy as np
 import json
 import os
 from _policies import BinaryActionLinearPolicy
-
-class TrainedLinearPolicy(object):
-    def __init__(self,theta):
-        self.theta = np.array(theta)
-    
-    def act(self, observation, reward=None, done=None):
-        prob = observation.dot(self.theta[:-1]) + self.theta[-1]
-        return 1 if prob > 0 else 0
-    
 
 def load_policy(env_name, experiment=None):
 
@@ -73,14 +69,7 @@ if __name__ == '__main__':
             
             done = np.logical_or(terminated, truncated)
             episode_reward += reward 
-        
-            # print(f'###################################')
-            # print(f'Episode {i_episode+1}-Step {t+1}:')
-            # print(f'  Action: {action}')
-            # print(f'  Observation: {observation}')
-            # print(f'  Current Reward: {reward}')
 
-            # Break
             if done:
                 break
     
