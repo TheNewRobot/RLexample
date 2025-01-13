@@ -1,3 +1,10 @@
+"""
+References
+
+For the CartPole v0 environment, we have this linkinfo: https://gymnasium.farama.org/environments/classic_control/cart_pole/
+    
+"""
+
 import argparse
 
 import gymnasium as gym
@@ -10,6 +17,7 @@ class RandomAgent(object):
         self.action_space = action_space
 
     def act(self, observation, reward, done):
+        # Here is were you define the RL algorith
         return self.action_space.sample()
 
 
@@ -23,25 +31,27 @@ class BiasedAgent(object):
 
 
 if __name__ == '__main__':
-
+   
+    # Argument parser
     parser = argparse.ArgumentParser()
     parser.add_argument('--display', action='store_true')
     parser.add_argument('game', nargs="?", default="CartPole-v0")
     args = parser.parse_args()
-
+    # 1. Create the environment
     env = gym.make(args.game, render_mode='human')
+    # 2. Experiment hyperparameters
     num_episodes = 20
     num_maxstep = 100
-
+    # 3. Agent definition
     agent_id = 1
     if agent_id == 1:
         agent = RandomAgent(env.action_space)
     elif agent_id == 2:
         agent = BiasedAgent(env.action_space)
-
+    # 4. Init important experiment buffers
     reward = 0
     done = False
-
+    # 5. Learning loop (this shouldn't change)
     for i_episode in range(num_episodes):
         observation, _ = env.reset()
         for t in range(num_maxstep):
